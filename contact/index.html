@@ -7,32 +7,34 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <nav>
-    <a href="../index.html">Home</a> |
-    <a href="../projects/index.html">Projects</a> |
-    <a href="../contact/index.html">Contact</a> |
-    <a href="../resume/index.html">Resume</a>
-  </nav>
-
-  <h1>Contact</h1>
-
-  <form action="mailto:TestEmail@gmail.com" method="POST" enctype="text/plain">
-    <label>
-      Email:
-      <input type="email" name="email" required>
-    </label>
-    <br><br>
-    <label>
-      Subject:
-      <input name="subject">
-    </label>
-    <br><br>
-    <label>
-      Body:
-      <textarea name="body"></textarea>
-    </label>
-    <br><br>
-    <button>Submit</button>
-  </form>
+  <main class="container">
+    <nav>
+      <a href="../index.html">Home</a> 
+      <a href="../projects/index.html">Projects</a> 
+      <a href="../contact/index.html" class="current">Contact</a> 
+      <a href="../resume/index.html">Resume</a>
+    </nav>
+  
+    <h1>Contact</h1>
+  
+    <form action="mailto:TestEmail@gmail.com" method="POST" enctype="text/plain">
+      <label>
+        Email:
+        <input type="email" name="email" required>
+      </label>
+      <br><br>
+      <label>
+        Subject:
+        <input name="subject">
+      </label>
+      <br><br>
+      <label>
+        Body:
+        <textarea name="body"></textarea>
+      </label>
+      <br><br>
+      <button>Submit</button>
+    </form>
+  </main>
 </body>
 </html>
