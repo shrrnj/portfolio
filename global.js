@@ -54,3 +54,51 @@ for (const { url, title, external } of PAGES) {
 
   nav.append(a);
 }
+
+/* ----------------- Dark mode switcher (Step 4) ----------------- */
+
+/* Inject the control at the very top of <body> */
+document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <label class="color-scheme">
+      Theme:
+      <select id="color-scheme">
+        <option value="light dark">Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    `
+  );
+  
+  /* Position it top-right & make it subtle via CSS-in-JS fallback (keeps all in one place).
+     If you prefer, move these rules into style.css. */
+  const style = document.createElement('style');
+  style.textContent = `
+    .color-scheme{
+      position: absolute; top: 1rem; right: 1rem;
+      font-size: 80%; color: var(--muted, canvastext);
+    }
+    /* ensure <select> inherits site font per Lab 2 */
+    .color-scheme select { font: inherit; }
+  `;
+  document.head.append(style);
+  
+  /* Wire it up + persistence */
+  const select = document.getElementById('color-scheme');
+  const ROOT = document.documentElement;
+  const STORAGE_KEY = 'colorScheme';
+  
+  /* Load saved preference (else default to Automatic) */
+  const saved = localStorage.getItem(STORAGE_KEY) || 'light dark';
+  select.value = saved;
+  ROOT.style.setProperty('color-scheme', saved);
+  
+  /* Update on change and persist */
+  select.addEventListener('input', (e) => {
+    const scheme = e.target.value;              // 'light dark' | 'light' | 'dark'
+    ROOT.style.setProperty('color-scheme', scheme);
+    localStorage.setItem(STORAGE_KEY, scheme);
+    console.log('color scheme changed to', scheme);
+  });

@@ -4,6 +4,20 @@ body {
    font: 100%/1.5 system-ui;
  }
  
+/* Theme-aware surfaces & borders */
+:root{
+  /* subtle card/chip background that works in light & dark */
+  --surface-1: color-mix(in oklab, canvas, canvastext 12%);
+  /* very subtle border that works in both */
+  --border-1: color-mix(in oklab, canvastext, canvas 85%);
+}
+
+/* Let the browser render in light or dark, based on OS */
+html { color-scheme: light dark; }
+
+/* Use system colors so they auto-adapt */
+html, body { background: canvas; color: canvastext; }
+
  /* Accent color (custom property) */
  :root {
    --color-accent: #2563eb;  /* blue accent */
@@ -22,7 +36,8 @@ body {
    justify-content: center;        /* center links horizontally */
    gap: 1rem;                      /* space between links */
    margin-bottom: 1rem;            /* spacing below the nav */
-   border-bottom: 1px solid #ccc;  /* subtle divider line */
+   --border-color: oklch(50% 0.1 200 / 40%); /* subtle, works in both modes */
+   border-bottom: 1px solid var(--border-color);
  }
  
  nav a {
@@ -32,8 +47,9 @@ body {
    text-align: center;
  }
  
- nav a:hover {
-   background-color: #f3f4f6;           /* light gray on hover */
+ /* previous background too light in dark mode */
+ nav a:hover{
+   background-color: color-mix(in oklab, var(--color-accent), canvas 85%);
    border-bottom: 0.25em solid var(--color-accent);
  }
  
@@ -85,20 +101,20 @@ form {
  }
  
  /* Card basics */
- .projects article {
-   background: #f8f9fb;
-   border: 1px solid #e5e7eb;
-   border-radius: 0.75rem;
+ .projects article{
+   background: canvas;   /* auto-adapts to light/dark */;
+   border: 1px solid color-mix(in oklab, canvastext, canvas 70%);
+   border-radius: .75rem;
    padding: 1rem;
-   display: grid;            /* prepare for subgrid in 4.3 */
-   gap: 0.5rem;
+   display: grid;
+   gap: .5rem;
  }
- 
- .projects img { 
-   width: 100%; 
-   height: auto; 
-   display: block; 
-   background: #e5e7eb; 
+
+ .projects img{
+   width: 100%;
+   height: auto;
+   display: block;
+   background: color-mix(in oklab, canvastext, canvas 85%);
  }
 
 
@@ -172,9 +188,10 @@ header {
  }
  
  ul li {
-   background: #f3f4f6;
-   margin: 0.25rem 0;
-   padding: 0.4rem 0.6rem;
-   border-radius: 0.4rem;
-   display: inline-block;
+  background: canvas;        /* adapts to light/dark */
+  color: canvastext;         /* adapts to light/dark */
+  margin: 0.25rem 0;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.4rem;
+  display: inline-block;
  }
