@@ -10,24 +10,19 @@
   <main class="container">
   
     <h1>Contact</h1>
-  
-    <form action="mailto:TestEmail@gmail.com" method="POST" enctype="text/plain">
-      <label>
-        Email:
-        <input type="email" name="email" required>
-      </label>
-      <br><br>
+
+    <form action="mailto:TestEmail@gmail.com" method="GET">
       <label>
         Subject:
-        <input name="subject">
+        <input name="subject" required>
       </label>
-      <br><br>
+    
       <label>
-        Body:
-        <textarea name="body"></textarea>
+        Message:
+        <textarea name="body" rows="6" required></textarea>
       </label>
-      <br><br>
-      <button>Submit</button>
+    
+      <button type="submit">Send</button>
     </form>
   </main>
   <script type="module" src="../global.js"></script>

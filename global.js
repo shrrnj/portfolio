@@ -102,3 +102,31 @@ document.body.insertAdjacentHTML(
     localStorage.setItem(STORAGE_KEY, scheme);
     console.log('color scheme changed to', scheme);
   });
+
+
+  // ----- Step 5: Better contact form (optional) -----
+const form = document.querySelector('form[action^="mailto:"]');
+
+form?.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  // Collect submitted values
+  const data = new FormData(form);
+
+  // Build query string with proper URL encoding
+  const params = new URLSearchParams();
+
+  // Only include fields that are relevant to mailto (subject/body)
+  // (If you added more fields, include them here by name.)
+  const subject = data.get('subject') ?? '';
+  const body    = (data.get('body') ?? '').replace(/\r?\n/g, '\n'); // normalize newlines
+
+  params.set('subject', subject);
+  params.set('body', body);
+
+  // Final mailto URL
+  const url = `${form.action}?${params.toString()}`;
+
+  // Open mail client
+  location.href = url;
+});
