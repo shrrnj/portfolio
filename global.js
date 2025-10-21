@@ -5,7 +5,7 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-/* ---------- Step 3: Automatic navigation ---------- */
+/* ----------Lab 3 Step 3: Automatic navigation ---------- */
 
 // Detect base path: local dev vs GitHub Pages (/portfolio/)
 const BASE_PATH =
@@ -55,7 +55,7 @@ for (const { url, title, external } of PAGES) {
   nav.append(a);
 }
 
-/* ----------------- Dark mode switcher (Step 4) ----------------- */
+/* -----------------Lab 3 Dark mode switcher (Step 4) ----------------- */
 
 /* Inject the control at the very top of <body> */
 document.body.insertAdjacentHTML(
@@ -104,7 +104,7 @@ document.body.insertAdjacentHTML(
   });
 
 
-  // ----- Step 5: Better contact form (optional) -----
+  // -----Lab 3 Step 5: Better contact form (optional) -----
 const form = document.querySelector('form[action^="mailto:"]');
 
 form?.addEventListener('submit', (event) => {
@@ -130,3 +130,61 @@ form?.addEventListener('submit', (event) => {
   // Open mail client
   location.href = url;
 });
+
+// --- Path helper: build a URL from the site root that works locally & on GH Pages
+export const fromRoot = (p) => {
+    // BASE_PATH you already defined above: "/" (local) or "/portfolio/" (GH Pages)
+    // Ensure single slash joins
+    const base = BASE_PATH.endsWith("/") ? BASE_PATH.slice(0, -1) : BASE_PATH;
+    const path = p.startsWith("/") ? p : `/${p}`;
+    return `${base}${path}`;
+  };
+  
+  // --- JSON fetch helper (Step 1.2)
+  export async function fetchJSON(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      }
+      console.log("Response object:", response);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error("Error fetching or parsing JSON data:", err);
+    }
+  }
+  
+  // Lab 4 Step 1.4: renderProjects function
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+    if (!Array.isArray(projects)) {
+      console.error("renderProjects expected an array, got:", projects);
+      return;
+    }
+  
+    if (!containerElement) {
+      console.error("renderProjects: containerElement not found");
+      return;
+    }
+  
+    // Clear out old content to avoid duplication
+    containerElement.innerHTML = '';
+  
+    // Loop through each project and render
+    for (const project of projects) {
+      const article = document.createElement('article');
+  
+      // Graceful fallback if properties are missing
+      const title = project.title ?? "Untitled project";
+      const image = project.image ?? "https://via.placeholder.com/150";
+      const description = project.description ?? "No description available.";
+  
+      article.innerHTML = `
+        <${headingLevel}>${title}</${headingLevel}>
+        <img src="${image}" alt="${title}" />
+        <p>${description}</p>
+      `;
+  
+      containerElement.appendChild(article);
+    }
+  }
