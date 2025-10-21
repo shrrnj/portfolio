@@ -155,7 +155,7 @@ export const fromRoot = (p) => {
     }
   }
   
-// Lab 4 Step 1.4: renderProjects function (with Year line)
+// Lab 4 Step 1.4: renderProjects function (title → year → image → description)
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
     if (!Array.isArray(projects)) {
       console.error("renderProjects expected an array, got:", projects);
@@ -166,20 +166,21 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       return;
     }
   
+    // Clear current content
     containerElement.innerHTML = '';
   
     for (const project of projects) {
       const article = document.createElement('article');
   
       const title = project.title ?? "Untitled project";
-      const year = project.year ?? '—';
-      const image = project.image ?? "https://via.placeholder.com/150";
+      const year  = project.year ?? '—';
+      const image = project.image ?? "https://via.placeholder.com/800x450?text=No+Image";
       const description = project.description ?? "No description available.";
   
       article.innerHTML = `
         <${headingLevel}>${title}</${headingLevel}>
         <p class="meta">Year: ${year}</p>
-        <img src="${image}" alt="${title}" />
+        <img src="${image}" alt="${title}" loading="lazy" decoding="async" />
         <p>${description}</p>
       `;
   
