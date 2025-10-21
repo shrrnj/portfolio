@@ -155,32 +155,30 @@ export const fromRoot = (p) => {
     }
   }
   
-  // Lab 4 Step 1.4: renderProjects function
+// Lab 4 Step 1.4: renderProjects function (with Year line)
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
     if (!Array.isArray(projects)) {
       console.error("renderProjects expected an array, got:", projects);
       return;
     }
-  
     if (!containerElement) {
       console.error("renderProjects: containerElement not found");
       return;
     }
   
-    // Clear out old content to avoid duplication
     containerElement.innerHTML = '';
   
-    // Loop through each project and render
     for (const project of projects) {
       const article = document.createElement('article');
   
-      // Graceful fallback if properties are missing
       const title = project.title ?? "Untitled project";
+      const year = project.year ?? '—';
       const image = project.image ?? "https://via.placeholder.com/150";
       const description = project.description ?? "No description available.";
   
       article.innerHTML = `
         <${headingLevel}>${title}</${headingLevel}>
+        <p class="meta">Year: ${year}</p>
         <img src="${image}" alt="${title}" />
         <p>${description}</p>
       `;

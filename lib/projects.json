@@ -1,62 +1,74 @@
 [
     {
-      "title": "Lorem ipsum dolor",
+      "title": "SAP HANA to AWS Pipeline Decommissioning",
+      "year": 2024,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Migrated datasets to AWS S3 with Lambda automation, reducing cloud costs and improving governance."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Generative AI Chatbot (SageMaker + Bedrock)",
+      "year": 2025,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Built an AI chatbot with RAG workflows and guardrails to automate data requests and ensure safe responses."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Serverless ETL Pipeline (AppFlow, Step Functions, Lambda)",
+      "year": 2023,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Designed scalable ETL pipelines for multi-terabyte datasets; optimized SQL queries for analytics and ML."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Real-Time Wildfire Risk Pipeline (EventBridge)",
+      "year": 2024,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Automated model updates with event-driven pipelines, reducing latency and improving emergency response."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Overhead Conductor Failure Prediction (ML Model)",
+      "year": 2022,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Developed ML model in SageMaker to predict conductor failures, improving asset risk assessment."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Overhead Structure Failure Prediction (ML Model)",
+      "year": 2022,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Trained ML model for structural risk detection, aligned with CPUC regulations."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "AI Assurance Evaluations",
+      "year": 2025,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Assessed and mitigated ML model risks through data validation, feature refinement, and audit-ready documentation."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "WiNGS Model QuickSight Dashboard",
+      "year": 2021,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Built a secure QuickSight dashboard to monitor wildfire models with alerts and role-based access."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "WiNGS Ops Model Validation",
+      "year": 2023,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Compared wildfire predictions with historical PSPS events to improve accuracy and reliability."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Amazon AtoZ App Feature Testing",
+      "year": 2020,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Validated new features, implemented secure access controls, and improved troubleshooting workflows."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "QuickSight Dashboards for Service Bottlenecks (Amazon)",
+      "year": 2021,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Created dashboards highlighting bottlenecks and performance issues, driving cross-team improvements."
     },
     {
-      "title": "Lorem ipsum dolor",
+      "title": "Automation Tools for Amazon Support",
+      "year": 2020,
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam ipsum…"
+      "description": "Built diagnostic tools reducing engineering investigation time by 6 hours weekly."
     }
   ]
