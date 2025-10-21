@@ -1,7 +1,7 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 // 1. Fetch all projects
-const projects = await fetchJSON('./lib/projects.json');
+const projects = await fetchJSON(fromRoot('/lib/projects.json'));
 
 // 2. Keep only the first 3
 const latestProjects = projects.slice(0, 3);
