@@ -1,11 +1,11 @@
 console.log("IT’S ALIVE!");
 
-// Helper from Step 1
+// Helper from earlier labs
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-/* ----------Lab 3 Step 3: Automatic navigation ---------- */
+/* ---------- Automatic navigation ---------- */
 
 // Detect base path: local dev vs GitHub Pages (/portfolio/)
 const BASE_PATH =
@@ -55,140 +55,129 @@ for (const { url, title, external } of PAGES) {
   nav.append(a);
 }
 
-/* -----------------Lab 3 Dark mode switcher (Step 4) ----------------- */
+/* ----------------- Dark mode switcher ----------------- */
 
-/* Inject the control at the very top of <body> */
 document.body.insertAdjacentHTML(
-    'afterbegin',
-    `
-    <label class="color-scheme">
-      Theme:
-      <select id="color-scheme">
-        <option value="light dark">Automatic</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
-    `
-  );
-  
-  /* Position it top-right & make it subtle via CSS-in-JS fallback (keeps all in one place).
-     If you prefer, move these rules into style.css. */
-  const style = document.createElement('style');
-  style.textContent = `
-    .color-scheme{
-      position: absolute; top: 1rem; right: 1rem;
-      font-size: 80%; color: var(--muted, canvastext);
-    }
-    /* ensure <select> inherits site font per Lab 2 */
-    .color-scheme select { font: inherit; }
-  `;
-  document.head.append(style);
-  
-  /* Wire it up + persistence */
-  const select = document.getElementById('color-scheme');
-  const ROOT = document.documentElement;
-  const STORAGE_KEY = 'colorScheme';
-  
-  /* Load saved preference (else default to Automatic) */
-  const saved = localStorage.getItem(STORAGE_KEY) || 'light dark';
-  select.value = saved;
-  ROOT.style.setProperty('color-scheme', saved);
-  
-  /* Update on change and persist */
-  select.addEventListener('input', (e) => {
-    const scheme = e.target.value;              // 'light dark' | 'light' | 'dark'
-    ROOT.style.setProperty('color-scheme', scheme);
-    localStorage.setItem(STORAGE_KEY, scheme);
-    console.log('color scheme changed to', scheme);
-  });
+  "afterbegin",
+  `
+  <label class="color-scheme">
+    Theme:
+    <select id="color-scheme">
+      <option value="light dark">Automatic</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+`
+);
 
+// quick styles for the switcher (optional to move to CSS)
+const style = document.createElement("style");
+style.textContent = `
+  .color-scheme{
+    position: absolute; top: 1rem; right: 1rem;
+    font-size: 80%; color: var(--muted, canvastext);
+  }
+  .color-scheme select { font: inherit; }
+`;
+document.head.append(style);
 
-  // -----Lab 3 Step 5: Better contact form (optional) -----
+// Wire it up + persistence
+const select = document.getElementById("color-scheme");
+const ROOT = document.documentElement;
+const STORAGE_KEY = "colorScheme";
+
+const saved = localStorage.getItem(STORAGE_KEY) || "light dark";
+select.value = saved;
+ROOT.style.setProperty("color-scheme", saved);
+
+select.addEventListener("input", (e) => {
+  const scheme = e.target.value;              // 'light dark' | 'light' | 'dark'
+  ROOT.style.setProperty("color-scheme", scheme);
+  localStorage.setItem(STORAGE_KEY, scheme);
+  console.log("color scheme changed to", scheme);
+});
+
+/* ----------------- Better contact form (optional) ----------------- */
+
 const form = document.querySelector('form[action^="mailto:"]');
-
-form?.addEventListener('submit', (event) => {
+form?.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  // Collect submitted values
   const data = new FormData(form);
-
-  // Build query string with proper URL encoding
   const params = new URLSearchParams();
 
-  // Only include fields that are relevant to mailto (subject/body)
-  // (If you added more fields, include them here by name.)
-  const subject = data.get('subject') ?? '';
-  const body    = (data.get('body') ?? '').replace(/\r?\n/g, '\n'); // normalize newlines
+  const subject = data.get("subject") ?? "";
+  const body    = (data.get("body") ?? "").replace(/\r?\n/g, "\n");
 
-  params.set('subject', subject);
-  params.set('body', body);
+  params.set("subject", subject);
+  params.set("body", body);
 
-  // Final mailto URL
   const url = `${form.action}?${params.toString()}`;
-
-  // Open mail client
   location.href = url;
 });
 
-// --- Path helper: build a URL from the site root that works locally & on GH Pages
+/* ----------------- Helpers exported to other modules ----------------- */
+
+// Build a URL from the site root that works locally & on GH Pages
 export const fromRoot = (p) => {
-    // BASE_PATH you already defined above: "/" (local) or "/portfolio/" (GH Pages)
-    // Ensure single slash joins
-    const base = BASE_PATH.endsWith("/") ? BASE_PATH.slice(0, -1) : BASE_PATH;
-    const path = p.startsWith("/") ? p : `/${p}`;
-    return `${base}${path}`;
-  };
-  
-  // --- JSON fetch helper (Step 1.2)
-  export async function fetchJSON(url) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
-      }
-      console.log("Response object:", response);
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      console.error("Error fetching or parsing JSON data:", err);
+  const base = BASE_PATH.endsWith("/") ? BASE_PATH.slice(0, -1) : BASE_PATH;
+  const path = p.startsWith("/") ? p : `/${p}`;
+  return `${base}${path}`;
+};
+
+// JSON fetch helper
+export async function fetchJSON(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
     }
+    console.log("Response object:", response);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching or parsing JSON data:", err);
   }
-  
-// Lab 4 Step 1.4: renderProjects function (title → year → image → description)
-export function renderProjects(projects, containerElement, headingLevel = 'h2') {
-    if (!Array.isArray(projects)) {
-      console.error("renderProjects expected an array, got:", projects);
-      return;
-    }
-    if (!containerElement) {
-      console.error("renderProjects: containerElement not found");
-      return;
-    }
-  
-    // Clear current content
-    containerElement.innerHTML = '';
-  
-    for (const project of projects) {
-      const article = document.createElement('article');
-  
-      const title = project.title ?? "Untitled project";
-      const year  = project.year ?? '—';
-      const image = project.image ?? "https://via.placeholder.com/800x450?text=No+Image";
-      const description = project.description ?? "No description available.";
-  
-      article.innerHTML = `
-        <${headingLevel}>${title}</${headingLevel}>
-        <p class="meta">Year: ${year}</p>
-        <img src="${image}" alt="${title}" loading="lazy" decoding="async" />
-        <p>${description}</p>
-      `;
-  
-      containerElement.appendChild(article);
-    }
+}
+
+/* ----------------- Lab 4: renderProjects (overlap-proof) ----------------- */
+
+export function renderProjects(projects, containerElement, headingLevel = "h2") {
+  if (!Array.isArray(projects)) {
+    console.error("renderProjects expected an array, got:", projects);
+    return;
+  }
+  if (!containerElement) {
+    console.error("renderProjects: containerElement not found");
+    return;
   }
 
-  // Lab 4 Step 3: Fetch GitHub Data
-export async function fetchGitHubData(username) {
-    return fetchJSON(`https://api.github.com/users/${username}`);
+  containerElement.innerHTML = "";
+
+  for (const project of projects) {
+    const article = document.createElement("article");
+
+    const title = project.title ?? "Untitled project";
+    const year = project.year ?? "—";
+    const image = project.image ?? "https://via.placeholder.com/800x450?text=No+Image";
+    const description = project.description ?? "No description available.";
+
+    // NOTE: .thumb wrapper guarantees a fixed box for the image
+    article.innerHTML = `
+      <${headingLevel}>${title}</${headingLevel}>
+      <p class="meta">Year: ${year}</p>
+      <div class="thumb">
+        <img src="${image}" alt="${title}">
+      </div>
+      <p class="desc">${description}</p>
+    `;
+
+    containerElement.appendChild(article);
   }
+}
+
+/* ----------------- Lab 4: GitHub API helper ----------------- */
+
+export async function fetchGitHubData(username) {
+  return fetchJSON(`https://api.github.com/users/${username}`);
+}
