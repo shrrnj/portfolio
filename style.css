@@ -11,7 +11,7 @@ body { font: 100%/1.5 system-ui; }
 
 /* Layout container */
 .container {
-  max-width: 100ch;
+  max-width: 1100px;   /* slightly wider to fit pie + cards */
   margin-inline: auto;
   padding: 1rem;
 }
@@ -54,52 +54,77 @@ label { display: contents; }
 button { grid-column: 1 / -1; }
 
 /* =========================
-   Projects (no overlap)
+   Projects Layout (Lab 5)
    ========================= */
 
-.projects{
+/* Grid container: pie + project list */
+.projects-layout{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  grid-template-columns: 360px 1fr; /* pie fixed width, list flexible */
+  align-items: start;
+  gap: 1.5rem;
+}
+
+/* Pie sizing */
+#projects-plot{
+  display: block;
+  width: 100%;
+  max-width: 22rem;    /* ~352px */
+  margin: 0;
+  overflow: visible;   /* needed for labels later */
+}
+
+/* Project cards grid (inside right column) */
+.projects-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
 }
 
-.projects article{
+/* Project cards */
+.projects-list article{
   background: var(--surface-1);
   border: 1px solid var(--border-1);
   border-radius: .75rem;
   padding: 1rem;
-
-  /* stack children in order; prevents overlap entirely */
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr; /* heading, year, image, description */
   gap: .75rem;
 }
 
-.projects h2,
-.projects h3{
+/* Headings underline */
+.projects-list h2, 
+.projects-list h3{
   margin: 0;
   padding-bottom: .5rem;
   border-bottom: 3px solid var(--color-accent);
 }
 
-.projects .meta{
-  margin: 0;
+/* Year line */
+.projects-list .meta{
   color: var(--muted, #667085);
   font-size: .95rem;
+  margin-top: .25rem;
 }
 
-.projects img{
+/* Image box */
+.projects-list img{
   width: 100%;
-  aspect-ratio: 16 / 9;   /* reserves space before image loads */
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   display: block;
+  margin: 0;
   border-radius: .4rem;
   background: color-mix(in oklab, canvastext, canvas 85%);
 }
 
-.projects .desc{
-  margin: 0;            /* sits below the image now */
+/* Description */
+.projects-list .desc{
+  margin: .25rem 0 0;
 }
+
+/* Ensure nothing floats into the grid */
+.projects-list * { float: none !important; }
 
 /* Type & images */
 h1 { font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); line-height: 1.1; }

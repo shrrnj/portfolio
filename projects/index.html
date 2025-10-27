@@ -8,10 +8,25 @@
 </head>
 <body>
   <main class="container">
+    <!-- Heading with dynamic count -->
     <h1><span class="projects-title"></span> Projects</h1>
-    <section class="projects">
-      <!-- Articles will be inserted here dynamically by JS -->
-    </section>
+  
+    <!-- Layout wraps the pie + cards -->
+    <div class="projects-layout">
+  
+      <!-- Pie chart container -->
+      <svg id="projects-plot"
+           viewBox="-60 -60 120 120"
+           role="img"
+           aria-labelledby="projectsPieTitle">
+        <title id="projectsPieTitle">Projects pie (Lab 5 sandbox)</title>
+      </svg>
+  
+      <!-- Projects list -->
+      <section class="projects-list" aria-live="polite">
+        <!-- Articles will be inserted dynamically by JS -->
+      </section>
+    </div>
   </main>
   
   <script src="../global.js" type="module"></script>
