@@ -1,56 +1,56 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 import { fetchJSON, renderProjects, fromRoot } from "../global.js";
 
-/* ---------------- Load and render projects ---------------- */
+/* ---------------- Load + render project cards ---------------- */
 const projects = await fetchJSON(fromRoot("/lib/projects.json"));
-const projectsContainer = document.querySelector(".projects-list");
+const listEl = document.querySelector(".projects-list");
+renderProjects(projects, listEl, "h2");
 
-// Render projects into the container
-renderProjects(projects, projectsContainer, "h2");
-
-// Update the title count
+// title count
 const titleEl = document.querySelector(".projects-title");
-if (titleEl) {
-  titleEl.textContent = projects.length;
-}
+if (titleEl) titleEl.textContent = projects.length;
 
-/* ---------------- Lab 5 · Step 1: Pie chart ---------------- */
+/* ---------------- Pie chart + legend (Lab 5 Step 1 & 2) ---------------- */
 
-// 1) Select the SVG we inserted in index.html
+// 1) SVG and generators
 const svg = d3.select("#projects-plot");
-
-// 1.1–1.3) Arc generator for slices (radius 50, centered by viewBox)
 const arcGen = d3.arc().innerRadius(0).outerRadius(50);
 
-// Use d3.pie() to compute start/end angles for slices
-const pie = d3.pie();
+// Use objects with labels (Step 2.1)
+const data = [
+  { value: 5, label: "apples" },
+  { value: 3, label: "oranges" },
+  { value: 8, label: "mangos" },
+  { value: 6, label: "pears" },
+  { value: 7, label: "limes" },
+  { value: 2, label: "cherries" }
+];
 
-// 1.4) Initial data (will be replaced in 1.5)
-let data = [1, 2];
+// Pie with value accessor
+const pie = d3.pie()
+  .value(d => d.value)
+  .sort(null);
 
-// Compute slices from data
-let slices = pie(data);
+// Color scale
+const color = d3.scaleOrdinal(d3.schemeTableau10);
 
-// Initial color scale
-let color = d3.scaleOrdinal(["gold", "purple"]);
+// 2) Draw slices
+const slices = pie(data);
 
-// Draw first two slices
-svg
-  .selectAll("path")
+svg.selectAll("path")
   .data(slices)
   .join("path")
   .attr("d", arcGen)
-  .attr("fill", (d, i) => color(i));
+  .attr("fill", (d, i) => color(i))
+  .select(function() { return this; }) // keep path selection
+  .append("title")
+  .text(d => `${d.data.label}: ${d.data.value}`);
 
-// 1.5) Add more data and scale with d3 scheme
-data = [1, 2, 3, 4, 5];
-slices = pie(data);
-color = d3.scaleOrdinal(d3.schemeTableau10); // 10-color palette
+// 3) Build legend under the chart
+const legend = d3.select(".legend"); // <ul class="legend"> must exist in HTML
 
-// Redraw with updated data
-svg
-  .selectAll("path")
-  .data(slices)
-  .join("path")
-  .attr("d", arcGen)
-  .attr("fill", (d, i) => color(i));
+legend.selectAll("li")
+  .data(data)
+  .join("li")
+  .style("--color", (_, i) => color(i))
+  .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);

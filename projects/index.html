@@ -4,34 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects - Sahra Ranjbar</title>
-  <link rel="stylesheet" href="../style.css?v=2025-10-21-1">
+  <link rel="stylesheet" href="../style.css?v=2025-10-21-2">
 </head>
 <body>
   <main class="container">
-    <!-- Heading with dynamic count -->
     <h1><span class="projects-title"></span> Projects</h1>
-  
-    <!-- Layout wraps the pie + cards -->
+
     <div class="projects-layout">
-  
-      <!-- Pie chart container -->
-      <svg id="projects-plot"
-           viewBox="-60 -60 120 120"
-           role="img"
-           aria-labelledby="projectsPieTitle">
-        <title id="projectsPieTitle">Projects pie (Lab 5 sandbox)</title>
-      </svg>
-  
-      <!-- Projects list -->
-      <section class="projects-list" aria-live="polite">
-        <!-- Articles will be inserted dynamically by JS -->
+      <!-- Left column: pie chart + legend -->
+      <div>
+        <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
+        <ul class="legend"></ul>
+      </div>
+
+      <!-- Right column: project cards -->
+      <section class="projects-list">
+        <!-- Articles inserted dynamically by projects.js -->
       </section>
     </div>
   </main>
-  
+
   <script src="../global.js" type="module"></script>
-  <script src="projects.js" type="module"></script>
+  <script src="projects.js" type="module" defer></script>
 </body>
 </html>
-
-
