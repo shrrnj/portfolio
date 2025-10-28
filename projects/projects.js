@@ -1,74 +1,127 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 import { fetchJSON, renderProjects, fromRoot } from "../global.js";
 
-/* ---------------- Load and render projects ---------------- */
-const projects = await fetchJSON(fromRoot("/lib/projects.json"));
+/* ---------------- Load data ---------------- */
+const allProjects = await fetchJSON(fromRoot("/lib/projects.json"));
+
+/* DOM refs */
+const svg = d3.select("#projects-plot");
+const legendUL = d3.select(".legend");
 const projectsContainer = document.querySelector(".projects-list");
-
-// Render projects into the container
-renderProjects(projects, projectsContainer, "h2");
-
-// Update the title count
 const titleEl = document.querySelector(".projects-title");
-if (titleEl) {
-  titleEl.textContent = projects.length;
+const searchInput = document.querySelector(".searchBar");
+
+/* Page title count */
+if (titleEl) titleEl.textContent = allProjects.length;
+
+/* State */
+let query = "";             // current text query (lowercased)
+let selectedIndex = -1;     // -1 = nothing selected in the pie
+let rolledData = [];        // [[year, count], ...] for the *currently plotted* set
+let colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+
+/* Geometry */
+const arcGen = d3.arc().innerRadius(0).outerRadius(50);
+const pie = d3.pie().value(d => d[1]);  // use counts
+
+/* ---------- Helpers ---------- */
+
+/** Return projects filtered by search + (if any) selected year */
+function getVisibleProjects() {
+  // 1) search across all project values
+  let filtered = allProjects.filter(p =>
+    Object.values(p).join("\n").toLowerCase().includes(query)
+  );
+
+  // 2) filter by selected year if active
+  if (selectedIndex !== -1 && rolledData[selectedIndex]) {
+    const year = String(rolledData[selectedIndex][0]);
+    filtered = filtered.filter(p => String(p.year) === year);
+  }
+  return filtered;
 }
 
-/* ---------------- Step 3: Real data in pie ---------------- */
+/** Recompute rollups (year -> count) for the given dataset */
+function computeRollups(projects) {
+  return d3.rollups(
+    projects,
+    v => v.length,
+    d => d.year
+  ).sort((a, b) => d3.ascending(a[0], b[0]));
+}
 
-// 1) Select the SVG
-const svg = d3.select("#projects-plot");
-const arcGen = d3.arc().innerRadius(0).outerRadius(50);
-const pie = d3.pie().value(d => d.value);
+/** Render (or re-render) the pie + legend from the given projects */
+function renderPieChart(projects) {
+  // 1) roll up fresh data for this view
+  rolledData = computeRollups(projects);
 
-// 2) Group projects by year
-let rolledData = d3.rollups(
-  projects,
-  v => v.length, // count
-  d => d.year     // group by year
-).sort((a, b) => d3.ascending(a[0], b[0]));
+  // 2) build arcs from rollups
+  const arcs = pie(rolledData); // pie expects array of [label,value]
 
-// 3) Convert to array of {label, value}
-let data = rolledData.map(([year, count]) => ({
-  label: year,
-  value: count
-}));
+  // 3) JOIN paths
+  const paths = svg
+    .selectAll("path")
+    .data(arcs, d => d.data[0]); // key by year
 
-// 4) Slices
-let slices = pie(data);
+  paths.exit().remove();
 
-// 5) Color scale
-const colors = d3.scaleOrdinal(d3.schemeTableau10);
+  paths
+    .enter()
+    .append("path")
+    .merge(paths)
+    .attr("d", arcGen)
+    .style("--color", (d, i) => colorScale(i))
+    .style("fill", "var(--color)")
+    .attr("class", (d, i) => (i === selectedIndex ? "selected" : null))
+    .on("click", (_, i) => {
+      // toggle selection
+      selectedIndex = (selectedIndex === i) ? -1 : i;
+      // when selection changes, re-render *cards* and keep pie/legend in sync
+      renderEverything();
+    });
 
-// Draw slices
-svg
-  .selectAll("path")
-  .data(slices)
-  .join("path")
-  .attr("d", arcGen)
-  .attr("fill", (d, i) => colors(i));
+  // 4) Legend
+  const li = legendUL.selectAll("li")
+    .data(rolledData, d => d[0]);
 
-/* ---------------- Legend ---------------- */
-const legend = d3.select(".legend").html(""); // clear old
+  li.exit().remove();
 
-const legendItems = legend
-  .selectAll("li")
-  .data(data)
-  .join("li")
-  .attr("style", (d, i) => `--color:${colors(i)}`);
+  const liEnter = li.enter()
+    .append("li")
+    .style("--color", (d, i) => colorScale(i))
+    .style("cursor", "pointer")
+    .on("click", (_, i) => {
+      selectedIndex = (selectedIndex === i) ? -1 : i;
+      renderEverything();
+    });
 
-// checkbox
-legendItems
-  .append("input")
-  .attr("type", "checkbox")
-  .attr("disabled", true);
+  // swatch + label "(count)"
+  liEnter.html(d => `
+    <span class="swatch"></span>
+    <span class="label">${d[0]} <em>(${d[1]})</em></span>
+  `);
 
-// swatch
-legendItems
-  .append("span")
-  .attr("class", "swatch");
+  liEnter.merge(li)
+    .attr("class", (_, i) => (i === selectedIndex ? "selected" : null));
+}
 
-// label + count
-legendItems
-  .append("span")
-  .html(d => `${d.label} <em>(${d.value})</em>`);
+/** Render cards for current visible projects */
+function renderCards(projects) {
+  renderProjects(projects, projectsContainer, "h2");
+}
+
+/** One place to recompute + render everything reactively */
+function renderEverything() {
+  const visible = getVisibleProjects();    // apply query + selection
+  renderCards(visible);                     // update cards
+  renderPieChart(visible);                  // pie/legend reflect *visible* data
+}
+
+/* ---------- Search wiring (Step 4) ---------- */
+searchInput?.addEventListener("input", (e) => {
+  query = (e.target.value || "").toLowerCase().trim();
+  renderEverything();
+});
+
+/* ---------- Initial paint ---------- */
+renderEverything();
