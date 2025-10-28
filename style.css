@@ -66,8 +66,7 @@
    button{ grid-column:1 / -1; }
    
    /* =========================
-      Resume helpers
-      (scoped ONLY to resume page to avoid affecting Projects)
+      Resume helpers (scoped)
       ========================= */
    body.resume header{ text-align:center; margin-bottom:2rem; }
    body.resume header h1{ font-size:2rem; color:var(--color-accent); }
@@ -97,11 +96,10 @@
    
    /* =========================
       PROJECTS PAGE
-      Layout: pie (left) + cards grid (right)
       ========================= */
    .projects-layout{
      display:grid;
-     grid-template-columns: 320px 1fr;    /* left column for chart */
+     grid-template-columns: 320px 1fr; /* left column for chart */
      gap:2rem;
      align-items:start;
    }
@@ -111,11 +109,11 @@
      display:block;
      max-width:100%;
      height:auto;
-     margin:0 auto;                       /* center in its column */
-     overflow:visible;                    /* leaves room for labels */
+     margin:0 auto;                   /* center in its column */
+     overflow:visible;                /* room for paths */
    }
    
-   /* Cards grid (Projects page) */
+   /* Cards grid */
    .projects-list{
      display:grid;
      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -134,7 +132,7 @@
      gap:.75rem;
    }
    
-   /* Card heading underline */
+   /* Card title underline */
    .projects-list h2, .projects-list h3{
      margin:0;
      padding-bottom:.5rem;
@@ -160,14 +158,14 @@
    /* Description */
    .projects-list .desc{ margin:0; }
    
-   /* Responsive: stack when narrow */
+   /* Responsive */
    @media (max-width: 900px){
      .projects-layout{ grid-template-columns:1fr; }
      #projects-plot{ max-width:20rem; margin-inline:auto; }
    }
    
    /* =========================
-      HOME PAGE 
+      HOME PAGE
       ========================= */
    .latest-projects,
    .projects-grid-home{
@@ -176,7 +174,6 @@
      gap:1.25rem;
      margin-top:1rem;
    }
-   
    .latest-projects article,
    .projects-grid-home article{
      background:var(--surface-1);
@@ -184,24 +181,21 @@
      border-radius:.75rem;
      padding:1rem;
      display:grid;
-     grid-template-rows:auto auto auto 1fr;  /* title, year, image, text */
+     grid-template-rows:auto auto auto 1fr;
      gap:.75rem;
    }
-   
    .latest-projects h3,
    .projects-grid-home h3{
      margin:0;
      padding-bottom:.5rem;
      border-bottom:3px solid var(--color-accent);
    }
-   
    .latest-projects .meta,
    .projects-grid-home .meta{
      margin:0;
      color:var(--muted, #667085);
      font-size:.95rem;
    }
-   
    .latest-projects img,
    .projects-grid-home img{
      width:100%;
@@ -212,44 +206,37 @@
    }
    
    /* =========================
-      Legend (flex row)
+      Legend (Step 5)
       ========================= */
-   .legend {
-     display: flex;
-     flex-wrap: wrap;
-     gap: .5rem 1.25rem;
-     margin-top: 1rem;
-     padding: .75rem 1rem;
-     border: 1px solid var(--border-1);
-     border-radius: .5rem;
-     background: var(--surface-1);
+   .legend{
+     display:flex;
+     flex-wrap:wrap;
+     gap:.5rem 1.25rem;
+     margin-top:1rem;
+     padding:.75rem 1rem;
+     border:1px solid var(--border-1);
+     border-radius:.5rem;
+     background:var(--surface-1);
    }
-   .legend li {
-     display: flex;
-     align-items: center;
-     gap: .5rem;
-     margin: 0;
-     padding: 0;
-     background: transparent;
+   .legend li{
+     display:flex;
+     align-items:center;
+     gap:.5rem;
+     margin:0;
+     padding:0;
+     background:transparent;
    }
-   .legend input[type="checkbox"] {
-     inline-size: 1rem;
-     block-size: 1rem;
+   .legend .swatch{
+     width:1rem;
+     height:1rem;
+     border-radius:.25rem;
+     border:1px solid var(--border-1);
+     background:var(--color);
    }
-   .legend .swatch {
-     width: 1rem;
-     height: 1rem;
-     border-radius: .25rem;
-     border: 1px solid var(--border-1);
-     background: var(--color);
-   }
-   .legend em {
-     font-style: normal;
-     color: var(--muted, #667085);
-   }
+   .legend em{ font-style:normal; color:var(--muted, #667085); }
    
    /* =========================
-      Search bar (Projects step 4)
+      Search (Step 4)
       ========================= */
    .searchBar{
      display:block;
@@ -260,27 +247,22 @@
      font-size:1rem;
      border:1px solid var(--border-1);
      border-radius:.5rem;
-     background: canvas;
-     color: canvastext;
+     background:canvas;
+     color:canvastext;
    }
    .searchBar::placeholder{ color: color-mix(in oklab, canvastext, canvas 60%); }
    
    /* =========================
       Lab 5 Step 5 interactions
       ========================= */
-   
    /* Smooth transitions on wedges */
-   #projects-plot path { transition: 300ms; }
-   
+   #projects-plot path{ transition:300ms; }
    /* Fade non-hovered wedges */
-   #projects-plot:has(path:hover) path:not(:hover) { opacity: .5; }
-   
-   /* Selected color override (applies to both wedge + legend item when .selected is set) */
-   .selected { --color: oklch(60% 0.45 0) !important; } /* distinct highlight */
-   
+   #projects-plot:has(path:hover) path:not(:hover){ opacity:.5; }
+   /* Selected color override for both wedge + legend item */
+   .selected{ --color: oklch(60% 0.45 0) !important; }
    /* Make wedges obviously clickable */
-   #projects-plot path { cursor: pointer; }
-   
-   /* Keep legend’s color chip in sync */
-   .legend li .swatch { background: var(--color); }
-   .legend li.selected .swatch { background: var(--color); }
+   #projects-plot path{ cursor:pointer; }
+   /* Keep legend chip in sync with current --color */
+   .legend li .swatch{ background:var(--color); }
+   .legend li.selected .swatch{ background:var(--color); }
