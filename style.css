@@ -207,26 +207,45 @@
      background: color-mix(in oklab, canvastext, canvas 85%);
    }
    
-   /* =========================
-      (Optional) Legend styles for Lab 5 Step 2
-      ========================= */
+/* =========================
+   Legend (horizontal row style)
+   ========================= */
    .legend{
-     display:grid;
-     grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-     gap:.75rem 1rem;
-     border:1px solid var(--border-1);
-     border-radius:.5rem;
-     padding:.75rem;
-   }
-   .legend li{
-     display:flex;
-     align-items:center;
-     gap:.5rem;
-     min-width:9rem;
-   }
-   .legend .swatch{
-     width:1rem;
-     aspect-ratio:1 / 1;
-     border-radius:.25rem;
-     border:1px solid var(--border-1);
-   }
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem 1.25rem;
+    margin-top:1rem;
+    padding:.75rem 1rem;
+    border:1px solid var(--border-1);
+    border-radius:.5rem;
+    background: var(--surface-1);
+    justify-content: flex-start;
+  }
+  
+  .legend li{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    margin:0;
+    padding:0;
+    border-radius:0;
+    background: transparent;
+  }
+  
+  .legend input[type="checkbox"]{
+    inline-size:1rem;
+    block-size:1rem;
+  }
+  
+  .legend .swatch{
+    width:1rem;
+    height:1rem;
+    border-radius:.25rem;
+    border:1px solid var(--border-1);
+    background: var(--color);
+  }
+  
+  .legend em{
+    font-style: normal;
+    color: var(--muted, #667085);
+  }

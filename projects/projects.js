@@ -1,56 +1,74 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 import { fetchJSON, renderProjects, fromRoot } from "../global.js";
 
-/* ---------------- Load + render project cards ---------------- */
+/* ---------------- Load and render projects ---------------- */
 const projects = await fetchJSON(fromRoot("/lib/projects.json"));
-const listEl = document.querySelector(".projects-list");
-renderProjects(projects, listEl, "h2");
+const projectsContainer = document.querySelector(".projects-list");
 
-// title count
+// Render projects into the container
+renderProjects(projects, projectsContainer, "h2");
+
+// Update the title count
 const titleEl = document.querySelector(".projects-title");
-if (titleEl) titleEl.textContent = projects.length;
+if (titleEl) {
+  titleEl.textContent = projects.length;
+}
 
-/* ---------------- Pie chart + legend (Lab 5 Step 1 & 2) ---------------- */
+/* ---------------- Step 3: Real data in pie ---------------- */
 
-// 1) SVG and generators
+// 1) Select the SVG
 const svg = d3.select("#projects-plot");
 const arcGen = d3.arc().innerRadius(0).outerRadius(50);
+const pie = d3.pie().value(d => d.value);
 
-// Use objects with labels (Step 2.1)
-const data = [
-  { value: 5, label: "apples" },
-  { value: 3, label: "oranges" },
-  { value: 8, label: "mangos" },
-  { value: 6, label: "pears" },
-  { value: 7, label: "limes" },
-  { value: 2, label: "cherries" }
-];
+// 2) Group projects by year
+let rolledData = d3.rollups(
+  projects,
+  v => v.length, // count
+  d => d.year     // group by year
+).sort((a, b) => d3.ascending(a[0], b[0]));
 
-// Pie with value accessor
-const pie = d3.pie()
-  .value(d => d.value)
-  .sort(null);
+// 3) Convert to array of {label, value}
+let data = rolledData.map(([year, count]) => ({
+  label: year,
+  value: count
+}));
 
-// Color scale
-const color = d3.scaleOrdinal(d3.schemeTableau10);
+// 4) Slices
+let slices = pie(data);
 
-// 2) Draw slices
-const slices = pie(data);
+// 5) Color scale
+const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-svg.selectAll("path")
+// Draw slices
+svg
+  .selectAll("path")
   .data(slices)
   .join("path")
   .attr("d", arcGen)
-  .attr("fill", (d, i) => color(i))
-  .select(function() { return this; }) // keep path selection
-  .append("title")
-  .text(d => `${d.data.label}: ${d.data.value}`);
+  .attr("fill", (d, i) => colors(i));
 
-// 3) Build legend under the chart
-const legend = d3.select(".legend"); // <ul class="legend"> must exist in HTML
+/* ---------------- Legend ---------------- */
+const legend = d3.select(".legend").html(""); // clear old
 
-legend.selectAll("li")
+const legendItems = legend
+  .selectAll("li")
   .data(data)
   .join("li")
-  .style("--color", (_, i) => color(i))
-  .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+  .attr("style", (d, i) => `--color:${colors(i)}`);
+
+// checkbox
+legendItems
+  .append("input")
+  .attr("type", "checkbox")
+  .attr("disabled", true);
+
+// swatch
+legendItems
+  .append("span")
+  .attr("class", "swatch");
+
+// label + count
+legendItems
+  .append("span")
+  .html(d => `${d.label} <em>(${d.value})</em>`);
