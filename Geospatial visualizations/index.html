@@ -1,26 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geospatial Visualizations</title>
-
-  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
 
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
 
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <header>
-    <h1>Geospatial Visualizations</h1>
-  </header>
 
-  <main>
-    <div id="map" aria-label="Boston bike lanes map"></div>
-  </main>
+<header>
+  <h1>Geospatial Visualizations</h1>
+</header>
 
-  <script src="./app.js"></script>
+<main>
+  <div id="map">
+    <svg></svg>  
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>
