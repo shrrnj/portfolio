@@ -10,27 +10,43 @@
     <main>
       <h1>Meta</h1>
 
-      <!-- Summary stats -->
-      <section>
-        <h2>Summary</h2>
-        <div id="stats"></div>
-      </section>
+      <p class="meta-description">
+        This page includes stats about the code of this website.
+      </p>
 
-      <!-- Chart -->
+      <label class="meta-slider">
+        <span>Show commits until:</span>
+        <input
+          type="range"
+          id="commit-progress"
+          min="0"
+          max="100"
+          value="100"
+        />
+        <time id="commit-time"></time>
+      </label>
+
+      <div id="stats"></div>
+
       <section>
         <h2>Commits by time of day</h2>
         <div id="chart"></div>
       </section>
 
-      <!-- Hover tooltip (hidden by default) -->
       <dl id="commit-tooltip" class="info tooltip" hidden>
         <dt>Commit</dt>
-        <dd><a id="commit-link" href="#" target="_blank" rel="noopener noreferrer"></a></dd>
+        <dd>
+          <a
+            id="commit-link"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
+        </dd>
         <dt>Date</dt>
         <dd id="commit-date"></dd>
       </dl>
 
-      <!-- Brush readouts -->
       <section>
         <p id="selection-count">No commits selected</p>
         <dl id="language-breakdown" class="stats"></dl>

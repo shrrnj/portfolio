@@ -197,71 +197,119 @@
      background: color-mix(in oklab, canvastext, canvas 85%);
    }
    
+   /* ===================== META PAGE ===================== */
    
-/* ===================== META PAGE ===================== */
+   /* Layout */
+   .meta-page main {
+     max-width: 1100px;
+     margin: 2rem auto;
+     padding: 0 1rem;
+   }
+   .meta-page section { margin-block: 1.25rem 1.75rem; }
+   .meta-page h2 { margin: .25rem 0 1rem; }
+   
+   /* Gridlines */
+   .meta-page .gridlines .tick line {
+     stroke: currentColor;
+     opacity: .15;
+   }
+   
+   /* Tooltip */
+   .meta-page #commit-tooltip.tooltip {
+     position: fixed;
+     top: 1rem;
+     left: 1rem;
+     background: rgba(255, 255, 255, .85);
+     background: color-mix(in oklab, canvas, canvastext 5%);
+     backdrop-filter: blur(6px);
+     box-shadow: 0 6px 18px rgba(0,0,0,.12);
+     border: 1px solid var(--border-1, #e5e7eb);
+     border-radius: .5rem;
+     padding: .6rem .8rem;
+     pointer-events: none;
+     transition: opacity .2s ease, visibility .2s ease;
+   }
+   
+   /* Selected dots */
+   .meta-page circle.selected {
+     fill: #ff6bb6;
+   }
+   
+   /* Brush text */
+   .meta-page #selection-count {
+     margin-top: .75rem;
+     font-style: italic;
+     color: var(--color-accent, #0a66c2);
+   }
+   
+   /* Summary stats */
+   .meta-page dl.stats {
+     display: grid;
+     grid-template-columns: max-content 1fr;
+     column-gap: .75rem;
+     row-gap: .35rem;
+     margin: .25rem 0 0;
+   }
+   .meta-page dl.stats dt {
+     margin: 0;
+     font-weight: 600;
+     opacity: .7;
+   }
+   .meta-page dl.stats dd {
+     margin: 0;
+   }
+   
+   .meta-page #files {
+     display: grid;
+     grid-template-columns: 1fr 4fr;
+     gap: 0.25rem 1rem;
+     margin: 0.75rem 0 1.25rem;
+   }
+   .meta-page #files > div {
+     grid-column: 1 / -1;
+     display: grid;
+     grid-template-columns: subgrid;
+   }
+   .meta-page #files dt {
+     grid-column: 1;
+     margin: 0;
+   }
+   .meta-page #files dd {
+     grid-column: 2;
+     margin: 0;
+   }
+   .meta-page #files code {
+     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+       "Liberation Mono", "Courier New", monospace;
+   }
+   
+   /* Motion safety */
+   @media (prefers-reduced-motion: reduce) {
+     .meta-page circle { transition: none !important; }
+   }
+   
 
-/* Layout */
-.meta-page main {
-  max-width: 1100px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-.meta-page section { margin-block: 1.25rem 1.75rem; }
-.meta-page h2 { margin: .25rem 0 1rem; }
+   .meta-page .dots circle {
+     transition: 200ms transform, 200ms fill-opacity, 200ms r;
+   
+     @starting-style {
+       r: 0;
+     }
+   }
 
-/* Gridlines */
-.meta-page .gridlines .tick line {
-  stroke: currentColor;
-  opacity: .15;
-}
 
-/* Tooltip */
-.meta-page #commit-tooltip.tooltip {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  /* fallback first, then fancy background */
-  background: rgba(255, 255, 255, .85);
-  background: color-mix(in oklab, canvas, canvastext 5%);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.12);
-  border: 1px solid var(--border-1, #e5e7eb);
-  border-radius: .5rem;
-  padding: .6rem .8rem;
-  pointer-events: none;
-  transition: opacity .2s ease, visibility .2s ease;
-}
-
-/* Selected dots during brush */
-.meta-page circle.selected {
-  fill: #ff6bb6;
-}
-
-/* Brush readouts */
-.meta-page #selection-count {
-  margin-top: .75rem;
-  font-style: italic;
-  color: var(--color-accent, #0a66c2);
-}
-
-/* Summary list */
-.meta-page dl.stats {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: .75rem;
-  row-gap: .35rem;
-  margin: .25rem 0 0;
-}
-.meta-page dl.stats dt {
-  margin: 0;
-  font-weight: 600;
-  opacity: .7;
-}
-.meta-page dl.stats dd {
-  margin: 0;
-}
-
-/* Motion safety for dot scale hover */
-@media (prefers-reduced-motion: reduce) {
-  .meta-page circle { transition: none !important; }
-}
+  /* Mini stats row under file list */
+  .meta-page dl.stats-inline {
+    grid-template-columns: repeat(6, max-content);
+    column-gap: 2.5rem;
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+  .meta-page dl.stats-inline dt {
+    font-weight: 600;
+  }
+  .meta-page dl.stats-inline dd {
+    font-weight: 500;
+  }
