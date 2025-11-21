@@ -1,57 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
     <title>Meta</title>
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body class="meta-page">
-    <main>
-      <h1>Meta</h1>
-
-      <p class="meta-description">
+    <header class="meta-header">
+      <h1 class="meta-title">Meta</h1>
+      <p class="meta-subtitle">
         This page includes stats about the code of this website.
       </p>
+    </header>
 
-      <label class="meta-slider">
-        <span>Show commits until:</span>
-        <input
-          type="range"
-          id="commit-progress"
-          min="0"
-          max="100"
-          value="100"
-        />
-        <time id="commit-time"></time>
-      </label>
+    <!-- Slider + stats -->
+    <section>
+      <div class="meta-slider-row">
+        <div class="meta-slider-label">
+          <div>Show commits</div>
+          <div>until:</div>
+        </div>
 
-      <div id="stats"></div>
+        <div class="meta-slider-wrapper">
+          <input
+            id="date-slider"
+            class="meta-slider"
+            type="range"
+            min="0"
+            max="0"
+            value="0"
+          />
+          <div id="date-label" class="meta-slider-date"></div>
+        </div>
+      </div>
 
-      <section>
-        <h2>Commits by time of day</h2>
-        <div id="chart"></div>
-      </section>
-
-      <dl id="commit-tooltip" class="info tooltip" hidden>
-        <dt>Commit</dt>
-        <dd>
-          <a
-            id="commit-link"
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-          ></a>
-        </dd>
-        <dt>Date</dt>
-        <dd id="commit-date"></dd>
+      <dl class="meta-stats-row">
+        <div class="meta-stat">
+          <dt class="meta-stat-label">Commits</dt>
+          <dd id="stat-commits" class="meta-stat-value">0</dd>
+        </div>
+        <div class="meta-stat">
+          <dt class="meta-stat-label">Files</dt>
+          <dd id="stat-files" class="meta-stat-value">0</dd>
+        </div>
+        <div class="meta-stat">
+          <dt class="meta-stat-label">Total LOC</dt>
+          <dd id="stat-loc" class="meta-stat-value">0</dd>
+        </div>
+        <div class="meta-stat">
+          <dt class="meta-stat-label">Max depth</dt>
+          <dd id="stat-depth" class="meta-stat-value">0</dd>
+        </div>
+        <div class="meta-stat">
+          <dt class="meta-stat-label">Longest line</dt>
+          <dd id="stat-longest-line" class="meta-stat-value">0</dd>
+        </div>
+        <div class="meta-stat">
+          <dt class="meta-stat-label">Max lines</dt>
+          <dd id="stat-max-lines" class="meta-stat-value">0</dd>
+        </div>
       </dl>
+    </section>
 
-      <section>
-        <p id="selection-count">No commits selected</p>
-        <dl id="language-breakdown" class="stats"></dl>
-      </section>
-    </main>
+    <h2 class="meta-section-title">Commits by time of day</h2>
+
+    <!-- Scrollytelling layout -->
+    <section id="scrolly-1">
+      <div id="scatter-story"></div>
+
+      <div id="scatter-plot">
+        <svg></svg>
+      </div>
+    </section>
 
     <script type="module" src="./main.js"></script>
   </body>

@@ -14,302 +14,206 @@
    img { max-width: 100%; height: auto; display: block; }
    
    /* Container */
-   .container{
-     max-width: 72rem;
-     margin-inline: auto;
-     padding: 1.25rem;
-   }
-   
-   /* Type */
-   h1{ font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); line-height: 1.1; }
-   h2{ text-wrap: balance; }
-   
-   /* Nav */
-   nav{
-     display:flex;
-     justify-content:center;
-     gap:1rem;
-     margin-bottom:1rem;
-     border-bottom:1px solid oklch(50% 0.1 200 / 40%);
-   }
-   nav a{
-     text-decoration:none;
-     color:inherit;
-     padding:.5em;
-     text-align:center;
-   }
-   nav a:hover{
-     background: color-mix(in oklab, var(--color-accent), canvas 85%);
-     border-bottom:.25em solid var(--color-accent);
-   }
-   nav a.current{
-     font-weight:700;
-     border-bottom:.4em solid var(--color-accent);
-     padding-bottom:.1em;
-   }
-   
-   /* Forms */
-   input, textarea, button{
-     font:inherit;
-     display:block;
-     width:100%;
-     box-sizing:border-box;
-     margin-top:.25em;
-     padding:.5em;
-   }
-   form{ display:grid; grid-template-columns:auto 1fr; gap:1em; align-items:center; }
-   label{ display:contents; }
-   button{ grid-column:1 / -1; }
-   
-   /* =========================
-      Resume helpers
-      ========================= */
-   header{ text-align:center; margin-bottom:2rem; }
-   header h1{ font-size:2rem; color:var(--color-accent); }
-   header p{ color:#555; font-style:italic; }
-   
-   section{ margin-bottom:2rem; }
-   section h2{
-     border-bottom:2px solid var(--color-accent);
-     padding-bottom:.25rem;
-     margin-bottom:1rem;
-     font-size:1.4rem;
-   }
-   
-   article{ margin-bottom:1rem; }
-   article h3{ margin:0; font-size:1.1rem; font-weight:700; }
-   article p{ margin:.25rem 0; color:#333; }
-   
-   ul{ list-style:none; padding:0; }
-   ul li{
-     background:canvas;
-     color:canvastext;
-     margin:.25rem 0;
-     padding:.4rem .6rem;
-     border-radius:.4rem;
-     display:inline-block;
-   }
-   
-   /* =========================
-      PROJECTS PAGE
-      ========================= */
-   .projects-layout{
-     display:grid;
-     grid-template-columns: 320px 1fr;
-     gap:2rem;
-     align-items:start;
-   }
-   
-   #projects-plot{
-     display:block;
-     max-width:100%;
-     height:auto;
-     margin:0 auto;
-     overflow:visible;
-   }
-   
-   .projects-list{
-     display:grid;
-     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-     gap:1.25rem;
-     align-items:start;
-   }
-   
-   .projects-list article{
-     background:var(--surface-1);
-     border:1px solid var(--border-1);
-     border-radius:.75rem;
-     padding:1rem;
-     display:flex;
-     flex-direction:column;
-     gap:.75rem;
-   }
-   
-   .projects-list h2, .projects-list h3{
-     margin:0;
-     padding-bottom:.5rem;
-     border-bottom:3px solid var(--color-accent);
-   }
-   
-   .projects-list .meta{
-     margin:0;
-     color:var(--muted, #667085);
-     font-size:.95rem;
-   }
-   
-   .projects-list img{
-     width:100%;
-     aspect-ratio:16 / 9;
-     object-fit:cover;
-     border-radius:.4rem;
-     background: color-mix(in oklab, canvastext, canvas 85%);
-   }
-   
-   .projects-list .desc{ margin:0; }
-   
-   @media (max-width: 900px){
-     .projects-layout{ grid-template-columns:1fr; }
-     #projects-plot{ max-width:20rem; margin-inline:auto; }
-   }
-   
-   /* =========================
-      HOME PAGE – Latest Projects grid
-      ========================= */
-   .latest-projects,
-   .projects-grid-home{
-     display:grid;
-     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-     gap:1.25rem;
-     margin-top:1rem;
-   }
-   
-   .latest-projects article,
-   .projects-grid-home article{
-     background:var(--surface-1);
-     border:1px solid var(--border-1);
-     border-radius:.75rem;
-     padding:1rem;
-     display:grid;
-     grid-template-rows:auto auto auto 1fr;
-     gap:.75rem;
-   }
-   
-   .latest-projects h3,
-   .projects-grid-home h3{
-     margin:0;
-     padding-bottom:.5rem;
-     border-bottom:3px solid var(--color-accent);
-   }
-   
-   .latest-projects .meta,
-   .projects-grid-home .meta{
-     margin:0;
-     color:var(--muted, #667085);
-     font-size:.95rem;
-   }
-   
-   .latest-projects img,
-   .projects-grid-home img{
-     width:100%;
-     aspect-ratio:16 / 9;
-     object-fit:cover;
-     border-radius:.4rem;
-     background: color-mix(in oklab, canvastext, canvas 85%);
-   }
-   
-   /* ===================== META PAGE ===================== */
-   
-   /* Layout */
-   .meta-page main {
+   .meta-page {
+     min-height: 100vh;
+     padding: 2.5rem 4vw 4rem;
      max-width: 1100px;
-     margin: 2rem auto;
-     padding: 0 1rem;
-   }
-   .meta-page section { margin-block: 1.25rem 1.75rem; }
-   .meta-page h2 { margin: .25rem 0 1rem; }
-   
-   /* Gridlines */
-   .meta-page .gridlines .tick line {
-     stroke: currentColor;
-     opacity: .15;
+     margin: 0 auto;
    }
    
-   /* Tooltip */
-   .meta-page #commit-tooltip.tooltip {
-     position: fixed;
-     top: 1rem;
-     left: 1rem;
-     background: rgba(255, 255, 255, .85);
-     background: color-mix(in oklab, canvas, canvastext 5%);
-     backdrop-filter: blur(6px);
-     box-shadow: 0 6px 18px rgba(0,0,0,.12);
-     border: 1px solid var(--border-1, #e5e7eb);
-     border-radius: .5rem;
-     padding: .6rem .8rem;
-     pointer-events: none;
-     transition: opacity .2s ease, visibility .2s ease;
+   /* Heading */
+   .meta-header {
+     margin-bottom: 1.5rem;
    }
-   
-   /* Selected dots */
-   .meta-page circle.selected {
-     fill: #ff6bb6;
+   .meta-title {
+     font-size: clamp(2.1rem, 3vw, 2.6rem);
+     font-weight: 700;
+     letter-spacing: 0.03em;
+     margin: 0 0 .35rem;
    }
-   
-   /* Brush text */
-   .meta-page #selection-count {
-     margin-top: .75rem;
-     font-style: italic;
-     color: var(--color-accent, #0a66c2);
-   }
-   
-   /* Summary stats */
-   .meta-page dl.stats {
-     display: grid;
-     grid-template-columns: max-content 1fr;
-     column-gap: .75rem;
-     row-gap: .35rem;
-     margin: .25rem 0 0;
-   }
-   .meta-page dl.stats dt {
+   .meta-subtitle {
      margin: 0;
+     font-size: .95rem;
+     color: color-mix(in oklab, canvastext, canvas 30%);
+   }
+   
+   /* =========================
+      Slider + stats row
+      ========================= */
+   
+   .meta-slider-row {
+     display: flex;
+     align-items: center;
+     gap: 1rem;
+     margin: 1.75rem 0 1.25rem;
+     flex-wrap: wrap;
+   }
+   
+   .meta-slider-label {
+     font-size: .9rem;
+     white-space: nowrap;
+   }
+   
+   .meta-slider-wrapper {
+     flex: 1;
+     display: flex;
+     align-items: center;
+     gap: .75rem;
+   }
+   
+   .meta-slider {
+     width: 100%;
+     accent-color: var(--color-accent);
+   }
+   
+   .meta-slider-date {
+     min-width: 11rem;
+     font-size: .8rem;
+     color: color-mix(in oklab, canvastext, canvas 35%);
+     text-align: right;
+   }
+   
+   /* Stats row */
+   .meta-stats-row {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 1.5rem;
+     font-size: .8rem;
+     text-transform: uppercase;
+     letter-spacing: .08em;
+     margin-bottom: 1.5rem;
+   }
+   
+   .meta-stat {
+     display: flex;
+     flex-direction: column;
+     gap: .15rem;
+   }
+   
+   .meta-stat-label {
+     color: color-mix(in oklab, canvastext, canvas 40%);
+   }
+   
+   .meta-stat-value {
+     font-size: .95rem;
      font-weight: 600;
-     opacity: .7;
-   }
-   .meta-page dl.stats dd {
-     margin: 0;
    }
    
-   .meta-page #files {
-     display: grid;
-     grid-template-columns: 1fr 4fr;
-     gap: 0.25rem 1rem;
-     margin: 0.75rem 0 1.25rem;
-   }
-   .meta-page #files > div {
-     grid-column: 1 / -1;
-     display: grid;
-     grid-template-columns: subgrid;
-   }
-   .meta-page #files dt {
-     grid-column: 1;
-     margin: 0;
-   }
-   .meta-page #files dd {
-     grid-column: 2;
-     margin: 0;
-   }
-   .meta-page #files code {
-     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-       "Liberation Mono", "Courier New", monospace;
+   /* =========================
+      Scrollytelling layout
+      ========================= */
+   
+   #scrolly-1 {
+     position: relative;
+     display: flex;
+     gap: 1.5rem;
+     align-items: flex-start;
+     margin-top: 1.5rem;
    }
    
-   /* Motion safety */
-   @media (prefers-reduced-motion: reduce) {
-     .meta-page circle { transition: none !important; }
+   /* Left column: story text */
+   #scatter-story {
+     position: relative;
+     flex: 0 0 45%;
+     max-width: 420px;
    }
    
-
-   .meta-page .dots circle {
-     transition: 200ms transform, 200ms fill-opacity, 200ms r;
+   /* Individual steps */
+   .step {
+     padding: 1.25rem 0;
+     border-bottom: 1px solid color-mix(in oklab, canvastext, canvas 88%);
+   }
    
-     @starting-style {
-       r: 0;
+   .step-date {
+     font-size: .8rem;
+     text-transform: uppercase;
+     letter-spacing: .08em;
+     color: color-mix(in oklab, canvastext, canvas 40%);
+     margin-bottom: .25rem;
+   }
+   
+   .step-text-main {
+     font-size: .95rem;
+     margin-bottom: .35rem;
+   }
+   
+   .step-text-meta {
+     font-size: .8rem;
+     color: color-mix(in oklab, canvastext, canvas 35%);
+   }
+   
+   /* Right column: sticky scatter plot */
+   #scatter-plot {
+     position: sticky;
+     top: 0;
+     left: 0;
+     bottom: auto;
+     flex: 1;
+     height: 60vh;
+     min-height: 320px;
+   }
+   
+   #scatter-plot svg {
+     width: 100%;
+     height: 100%;
+     overflow: visible;
+   }
+   
+   /* Scatter axes & dots */
+   .scatter-axis path,
+   .scatter-axis line {
+     stroke: color-mix(in oklab, canvastext, canvas 80%);
+     stroke-width: .8;
+   }
+   
+   .scatter-axis text {
+     fill: color-mix(in oklab, canvastext, canvas 25%);
+     font-size: .7rem;
+   }
+   
+   .scatter-dot {
+     fill: var(--color-accent);
+     fill-opacity: .6;
+     stroke: color-mix(in oklab, canvastext, canvas 88%);
+     stroke-width: .7;
+   }
+   
+   /* Section title above scatter */
+   .meta-section-title {
+     font-size: 1.25rem;
+     font-weight: 600;
+     margin: 2.25rem 0 .75rem;
+   }
+   
+   /* =========================
+      Responsive tweaks
+      ========================= */
+   
+   @media (max-width: 900px) {
+     .meta-page {
+       padding-inline: 1.25rem;
+     }
+   
+     #scrolly-1 {
+       flex-direction: column;
+     }
+   
+     #scatter-plot {
+       position: relative;
+       top: 0;
+       height: 320px;
+     }
+   }
+   
+   @media (max-width: 600px) {
+     .meta-slider-row {
+       flex-direction: column;
+       align-items: stretch;
+     }
+   
+     .meta-slider-date {
+       text-align: left;
      }
    }
 
-
-  /* Mini stats row under file list */
-  .meta-page dl.stats-inline {
-    grid-template-columns: repeat(6, max-content);
-    column-gap: 2.5rem;
-    margin-top: 0.75rem;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-  }
-  .meta-page dl.stats-inline dt {
-    font-weight: 600;
-  }
-  .meta-page dl.stats-inline dd {
-    font-weight: 500;
-  }
+   
